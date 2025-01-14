@@ -152,8 +152,8 @@ export default function PlannerPage() {
           <span className="relative group">
             <QuestionMarkCircleIcon className="w-5 h-5 inline-block ml-2 text-gray-500 cursor-pointer hover:text-gray-700" />
             <span className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-64 p-2 bg-gray-800 text-gray-200 text-sm rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              The goal is to go from many thoughts racing through your head, to
-              having them all in one clear overview.
+              Clear your head by typing out the many unorganized thoughts that
+              are running through your mind.
             </span>
           </span>
         </p>
