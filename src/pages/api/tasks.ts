@@ -44,10 +44,15 @@ export default async function handler(
       return res.status(400).json({ error: "Invalid task category" });
     }
 
+    const isCompleted = category === "Completed";
+
     try {
       const updatedTask = await prisma.task.update({
         where: { id },
-        data: { category },
+        data: {
+          category,
+          completed: isCompleted,
+        },
       });
 
       return res.status(200).json(updatedTask);
