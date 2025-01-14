@@ -8,9 +8,10 @@ datasource db {
 }
 
 model Task {
-    id        Int      @id @default(autoincrement())
-    title     String
-    priority  String
-    completed Boolean  @default(false)
-    createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  title     String
+  priority  String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  category  String
 }
