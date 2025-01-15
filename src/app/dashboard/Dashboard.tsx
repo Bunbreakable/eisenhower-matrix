@@ -39,7 +39,7 @@ export default function Dashboard({ tasks }: { tasks: Task[] }) {
       <div className="absolute top-4 left-4">
         <Link
           href="/planner"
-          className="flex items-center text-gray-200 hover:text-gray-300 font-medium"
+          className="flex items-center text-gray-700 hover:text-gray-800 font-medium dark:text-gray-200 dark:hover:text-gray-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
