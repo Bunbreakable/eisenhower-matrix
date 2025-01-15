@@ -7,13 +7,17 @@ type Task = {
   id: number;
   title: string;
   category: string;
+  completed: boolean;
 };
 
 export default function Dashboard({ tasks }: { tasks: Task[] }) {
   const categories = ["Do", "Decide", "Delegate", "Delete", "Completed"];
   const [activeTab, setActiveTab] = useState("Do");
 
-  const filteredTasks = tasks.filter((task) => task.category === activeTab);
+  const filteredTasks =
+    activeTab === "Completed"
+      ? tasks.filter((task) => task.completed)
+      : tasks.filter((task) => task.category === activeTab);
 
   const markAsCompleted = async (taskId: number) => {
     try {
@@ -75,7 +79,7 @@ export default function Dashboard({ tasks }: { tasks: Task[] }) {
         ))}
       </div>
       <div className="bg-gray-200 p-6 rounded shadow-md">
-        <h2 className="text-2xl text-gray-800 font-bold mb-4">{activeTab}</h2>
+        <h2 className="text-2xl text-gray-800 font-bold text-center mb-4">{activeTab}</h2>
         {filteredTasks.length > 0 ? (
           <ul className="list-disc pl-6">
             {filteredTasks.map((task) => (
@@ -92,8 +96,16 @@ export default function Dashboard({ tasks }: { tasks: Task[] }) {
               </li>
             ))}
           </ul>
-        ) : activeTab === "Completed" ? (
-          <p className="text-gray-500">Time to complete your first task!</p>
+        ) : activeTab === "Do" ? (
+          <div className="text-gray-500 text-center">
+            <p className="mb-4">Yay! You did all your tasks here! 🎉</p>
+            <button
+              onClick={() => setActiveTab("Decide")}
+              className="text-purple-500 hover:underline"
+            >
+              Pick a new task to do from the Decide tab?
+            </button>
+          </div>
         ) : (
           <p className="text-gray-500">Currently no tasks to show</p>
         )}
