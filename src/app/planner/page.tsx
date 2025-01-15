@@ -95,19 +95,16 @@ export default function PlannerPage() {
           }),
         });
 
-        // Update the task category
         const updatedTasks = [...tasks];
         updatedTasks[currentTaskIndex] = { ...task, category };
         setTasks(updatedTasks);
 
-        // Reset for next task
         setIsImportant(null);
 
-        // Move to the next task or finish
         if (currentTaskIndex + 1 < tasks.length) {
           setCurrentTaskIndex(currentTaskIndex + 1);
         } else {
-          setStep(3); // All tasks categorized
+          setStep(3);
         }
       } catch (error) {
         console.error("Error updating task category:", error);
@@ -144,6 +141,29 @@ export default function PlannerPage() {
             Home
           </Link>
         </div>
+        <div className="absolute top-4 right-4">
+          <Link
+            href="/dashboard"
+            className="flex items-center text-gray-700 hover:text-gray-800 font-medium dark:text-gray-200 dark:hover:text-gray-300"
+          >
+            Dashboard
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-5 w-5 ml-1"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </Link>
+        </div>
+
         <h1 className="text-4xl sm:text-6xl font-bold text-center">
           Step #1: List all your tasks
         </h1>
