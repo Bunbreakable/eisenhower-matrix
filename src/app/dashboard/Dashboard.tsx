@@ -140,6 +140,8 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
                     <button
                       onClick={() => markAsCompleted(task.id)}
                       className="text-green-600 hover:text-green-800"
+                      aria-label="Mark as Completed"
+                      title="Mark as Completed"
                     >
                       <CheckIcon className="h-4 w-4" />
                     </button>
@@ -150,6 +152,7 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
                       isOpen={openDropdownId === task.id}
                       onToggle={() => handleToggleDropdown(task.id)}
                       onSelect={(category) => moveTask(task.id, category)}
+                      ariaLabel={`Move task`}
                     />
                   )}
                 </div>
