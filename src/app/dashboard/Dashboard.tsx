@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Dropdown from "@/components/Dropdown";
 
 type Task = {
   id: number;
@@ -10,31 +11,78 @@ type Task = {
   completed: boolean;
 };
 
-export default function Dashboard({ tasks }: { tasks: Task[] }) {
+export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const categories = ["Do", "Decide", "Delegate", "Delete", "Completed"];
   const [activeTab, setActiveTab] = useState("Do");
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
   const filteredTasks =
     activeTab === "Completed"
       ? tasks.filter((task) => task.completed)
       : tasks.filter((task) => task.category === activeTab);
 
-  const markAsCompleted = async (taskId: number) => {
+      const markAsCompleted = async (taskId: number) => {
+        try {
+          const response = await fetch("/api/tasks", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: taskId,
+              category: "Completed",
+            }),
+          });
+      
+          if (!response.ok) {
+            throw new Error("Failed to mark task as completed");
+          }
+      
+          const updatedTask = await response.json();
+      
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.id === updatedTask.id ? { ...task, category: "Completed" } : task
+            )
+          );
+        } catch (error) {
+          console.error("Failed to mark task as completed:", error);
+        }
+      };
+      
+
+  const handleToggleDropdown = (id: number) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
+  };
+
+  const moveTask = async (taskId: number, category: string) => {
     try {
-      await fetch("/api/tasks", {
+
+      const response = await fetch("/api/tasks", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           id: taskId,
-          category: "Completed",
+          category,
         }),
       });
 
-      window.location.reload();
+      if (!response.ok) {
+        throw new Error("Failed to move task");
+      }
+
+      const updatedTask = await response.json();
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === updatedTask.id ? { ...task, category } : task
+        )
+      );
     } catch (error) {
-      console.error("Failed to mark task as completed:", error);
+      console.error("Failed to move task:", error);
     }
   };
 
@@ -79,20 +127,33 @@ export default function Dashboard({ tasks }: { tasks: Task[] }) {
         ))}
       </div>
       <div className="bg-gray-200 p-6 rounded shadow-md">
-        <h2 className="text-2xl text-gray-800 font-bold text-center mb-4">{activeTab}</h2>
+        <h2 className="text-2xl text-gray-800 font-bold text-center mb-4">
+          {activeTab}
+        </h2>
         {filteredTasks.length > 0 ? (
           <ul className="list-disc pl-6">
             {filteredTasks.map((task) => (
-              <li className="text-gray-800" key={task.id}>
-                {task.title}
-                {activeTab === "Do" && (
-                  <button
-                    onClick={() => markAsCompleted(task.id)}
-                    className="ml-4 text-sm text-green-600 hover:text-green-800"
-                  >
-                    Mark as Completed
-                  </button>
-                )}
+              <li className="text-gray-800 mb-2" key={task.id}>
+                <div className="flex justify-between items-center">
+                  <span>{task.title}</span>
+
+                  {activeTab === "Do" && (
+                    <button
+                      onClick={() => markAsCompleted(task.id)}
+                      className="text-sm text-green-600 hover:text-green-800"
+                    >
+                      Mark as Completed
+                    </button>
+                  )}
+
+                  {activeTab === "Decide" && (
+                    <Dropdown
+                      isOpen={openDropdownId === task.id}
+                      onToggle={() => handleToggleDropdown(task.id)}
+                      onSelect={(category) => moveTask(task.id, category)}
+                    />
+                  )}
+                </div>
               </li>
             ))}
           </ul>
