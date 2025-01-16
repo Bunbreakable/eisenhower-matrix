@@ -44,10 +44,10 @@ export default function Dropdown({
     <div ref={dropdownRef} className="relative group">
       <button
         onClick={onToggle}
-        className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+        className="text-gray-700 hover:text-gray-900 dark:text-gray-800 dark:hover:text-black"
         aria-label={ariaLabel}
       >
-        <ArrowsRightLeftIcon className="w-5 h-5" />
+        <ArrowsRightLeftIcon className="w-4 h-4" />
       </button>
 
       <div className="absolute bottom-full mb-1 hidden group-hover:block w-max bg-gray-800 text-white text-xs rounded py-1 px-2 z-20">
@@ -61,7 +61,7 @@ export default function Dropdown({
           aria-labelledby={ariaLabel}
         >
           <ul className="py-1">
-            {["Do", "Delegate", "Delete"].map((category) => (
+            {["Do", "Delegate"].map((category) => (
               <li key={category}>
                 <button
                   onClick={() => handleSelect(category)}

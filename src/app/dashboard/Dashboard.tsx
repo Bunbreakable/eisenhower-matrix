@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Dropdown from "@/components/Dropdown";
 import { CheckIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 type Task = {
   id: number;
@@ -49,6 +50,34 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
       );
     } catch (error) {
       console.error("Failed to mark task as completed:", error);
+    }
+  };
+
+  const markAsDeleted = async (taskId: number) => {
+    try {
+      const response = await fetch("/api/tasks", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: taskId,
+          category: "Delete",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete task");
+      }
+
+      const updatedTask = await response.json();
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === updatedTask.id ? { ...task, category: "Delete" } : task
+        )
+      );
+    } catch (error) {
+      console.error("Failed to delete task:", error);
     }
   };
 
@@ -136,25 +165,38 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
                 <div className="flex justify-between items-center">
                   <span>{task.title}</span>
 
-                  {activeTab === "Do" && (
-                    <button
-                      onClick={() => markAsCompleted(task.id)}
-                      className="text-green-600 hover:text-green-800"
-                      aria-label="Mark as Completed"
-                      title="Mark as Completed"
-                    >
-                      <CheckIcon className="h-4 w-4" />
-                    </button>
-                  )}
+                  <div className="flex items-center gap-4">
+                    {["Do", "Decide", "Delegate"].includes(activeTab) && (
+                      <button
+                        onClick={() => markAsDeleted(task.id)}
+                        className="text-red-500 hover:text-red-700 dark:text-red-600 dark:hover:text-red-800"
+                        aria-label="Delete Task"
+                        title="Delete task"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
+                    )}
 
-                  {activeTab === "Decide" && (
-                    <Dropdown
-                      isOpen={openDropdownId === task.id}
-                      onToggle={() => handleToggleDropdown(task.id)}
-                      onSelect={(category) => moveTask(task.id, category)}
-                      ariaLabel={`Move task`}
-                    />
-                  )}
+                    {activeTab === "Do" && (
+                      <button
+                        onClick={() => markAsCompleted(task.id)}
+                        className="text-green-600 hover:text-green-800 dark-text-green-700 dark:hover:text-green-900"
+                        aria-label="Mark as Completed"
+                        title="Mark as Completed"
+                      >
+                        <CheckIcon className="h-4 w-4" />
+                      </button>
+                    )}
+
+                    {activeTab === "Decide" && (
+                      <Dropdown
+                        isOpen={openDropdownId === task.id}
+                        onToggle={() => handleToggleDropdown(task.id)}
+                        onSelect={(category) => moveTask(task.id, category)}
+                        ariaLabel={`Move task`}
+                      />
+                    )}
+                  </div>
                 </div>
               </li>
             ))}
