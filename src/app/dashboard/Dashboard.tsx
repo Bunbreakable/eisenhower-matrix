@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Dropdown from "@/components/Dropdown";
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
@@ -121,20 +122,7 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
           href="/planner"
           className="flex items-center text-gray-700 hover:text-gray-800 font-medium dark:text-gray-200 dark:hover:text-gray-300"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-5 w-5 mr-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
+          <ChevronLeftIcon className="h-5 w-5 mr-1" />
           To Planner
         </Link>
       </div>
