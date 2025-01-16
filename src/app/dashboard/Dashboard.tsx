@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Dropdown from "@/components/Dropdown";
+import { CheckIcon } from "@heroicons/react/24/solid";
 
 type Task = {
   id: number;
@@ -22,35 +23,34 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
       ? tasks.filter((task) => task.completed)
       : tasks.filter((task) => task.category === activeTab);
 
-      const markAsCompleted = async (taskId: number) => {
-        try {
-          const response = await fetch("/api/tasks", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: taskId,
-              category: "Completed",
-            }),
-          });
-      
-          if (!response.ok) {
-            throw new Error("Failed to mark task as completed");
-          }
-      
-          const updatedTask = await response.json();
-      
-          setTasks((prevTasks) =>
-            prevTasks.map((task) =>
-              task.id === updatedTask.id ? { ...task, category: "Completed" } : task
-            )
-          );
-        } catch (error) {
-          console.error("Failed to mark task as completed:", error);
-        }
-      };
-      
+  const markAsCompleted = async (taskId: number) => {
+    try {
+      const response = await fetch("/api/tasks", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: taskId,
+          category: "Completed",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to mark task as completed");
+      }
+
+      const updatedTask = await response.json();
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === updatedTask.id ? { ...task, category: "Completed" } : task
+        )
+      );
+    } catch (error) {
+      console.error("Failed to mark task as completed:", error);
+    }
+  };
 
   const handleToggleDropdown = (id: number) => {
     setOpenDropdownId(openDropdownId === id ? null : id);
@@ -58,7 +58,6 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
 
   const moveTask = async (taskId: number, category: string) => {
     try {
-
       const response = await fetch("/api/tasks", {
         method: "PUT",
         headers: {
@@ -140,9 +139,9 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
                   {activeTab === "Do" && (
                     <button
                       onClick={() => markAsCompleted(task.id)}
-                      className="text-sm text-green-600 hover:text-green-800"
+                      className="text-green-600 hover:text-green-800"
                     >
-                      Mark as Completed
+                      <CheckIcon className="h-4 w-4" />
                     </button>
                   )}
 
@@ -164,8 +163,13 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
               onClick={() => setActiveTab("Decide")}
               className="text-purple-500 hover:underline"
             >
-              Pick a new task to do from the Decide tab?
+              Pick a new task from the Decide tab?
             </button>
+            <p className="mt-4">
+              <Link href="/planner" className="text-yellow-500 hover:underline">
+                Or go to the planner to add a new task.
+              </Link>
+            </p>
           </div>
         ) : (
           <p className="text-gray-500">Currently no tasks to show</p>
