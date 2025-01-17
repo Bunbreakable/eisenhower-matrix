@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Dropdown from "@/components/Dropdown";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { CheckIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 type Task = {
@@ -147,44 +147,51 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
           {activeTab}
         </h2>
         {filteredTasks.length > 0 ? (
-          <ul className="list-disc pl-6">
+          <ul className="space-y-4">
+            {" "}
+            {/* Add space between cards */}
             {filteredTasks.map((task) => (
-              <li className="text-gray-800 mb-2" key={task.id}>
-                <div className="flex justify-between items-center">
-                  <span>{task.title}</span>
+              <li
+                className="bg-white p-4 rounded-lg shadow flex justify-between items-center dark:bg-gray-800"
+                key={task.id}
+              >
+                {/* Task Title */}
+                <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                  {task.title}
+                </span>
 
-                  <div className="flex items-center gap-4">
-                    {["Do", "Decide", "Delegate"].includes(activeTab) && (
-                      <button
-                        onClick={() => markAsDeleted(task.id)}
-                        className="text-red-500 hover:text-red-700 dark:text-red-600 dark:hover:text-red-800"
-                        aria-label="Delete Task"
-                        title="Delete task"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </button>
-                    )}
+                {/* Action Buttons */}
+                <div className="flex items-center gap-4">
+                  {["Do", "Decide", "Delegate"].includes(activeTab) && (
+                    <button
+                      onClick={() => markAsDeleted(task.id)}
+                      className="text-red-500 hover:text-red-700 dark:text-red-600 dark:hover:text-red-800"
+                      aria-label="Delete Task"
+                      title="Delete task"
+                    >
+                      <TrashIcon className="h-5 w-5" />
+                    </button>
+                  )}
 
-                    {activeTab === "Do" && (
-                      <button
-                        onClick={() => markAsCompleted(task.id)}
-                        className="text-green-600 hover:text-green-800 dark-text-green-700 dark:hover:text-green-900"
-                        aria-label="Mark as Completed"
-                        title="Mark as Completed"
-                      >
-                        <CheckIcon className="h-4 w-4" />
-                      </button>
-                    )}
+                  {activeTab === "Do" && (
+                    <button
+                      onClick={() => markAsCompleted(task.id)}
+                      className="text-green-600 hover:text-green-800 dark:text-green-700 dark:hover:text-green-900"
+                      aria-label="Mark as Completed"
+                      title="Mark as Completed"
+                    >
+                      <CheckCircleIcon className="h-5 w-5" />
+                    </button>
+                  )}
 
-                    {activeTab === "Decide" && (
-                      <Dropdown
-                        isOpen={openDropdownId === task.id}
-                        onToggle={() => handleToggleDropdown(task.id)}
-                        onSelect={(category) => moveTask(task.id, category)}
-                        ariaLabel={`Move task`}
-                      />
-                    )}
-                  </div>
+                  {activeTab === "Decide" && (
+                    <Dropdown
+                      isOpen={openDropdownId === task.id}
+                      onToggle={() => handleToggleDropdown(task.id)}
+                      onSelect={(category) => moveTask(task.id, category)}
+                      ariaLabel={`Move task`}
+                    />
+                  )}
                 </div>
               </li>
             ))}
@@ -196,10 +203,10 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
               onClick={() => setActiveTab("Decide")}
               className="text-purple-500 hover:underline"
             >
-              Pick a new task from the Decide tab?
+              Pick another task from the Decide tab?
             </button>
             <p className="mt-4">
-              <Link href="/planner" className="text-yellow-500 hover:underline">
+              <Link href="/planner" className="text-yellow-600 hover:underline">
                 Or go to the planner to add a new task.
               </Link>
             </p>

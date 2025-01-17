@@ -12,7 +12,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Navigation Links */}
         <div className="hidden md:flex space-x-4">
           <Link href="/planner" className="hover:text-white">
             Planner

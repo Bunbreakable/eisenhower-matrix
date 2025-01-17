@@ -134,7 +134,7 @@ export default function PlannerPage() {
             href="/dashboard"
             className="flex items-center text-gray-700 hover:text-gray-800 font-medium dark:text-gray-200 dark:hover:text-gray-300"
           >
-            Dashboard
+            To Dashboard
             <ChevronRightIcon className="h-5 w-5 mr-1" />
           </Link>
         </div>
@@ -153,7 +153,6 @@ export default function PlannerPage() {
           </span>
         </p>
 
-        {/* Input Field and Add Button */}
         <div className="flex items-center gap-2 mt-6">
           <input
             type="text"
@@ -165,7 +164,7 @@ export default function PlannerPage() {
           />
           <button
             onClick={handleAddTask}
-            className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+            className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 dark:hover:bg-[#ccc]"
           >
             Add
           </button>
@@ -173,7 +172,7 @@ export default function PlannerPage() {
         <div>
           <button
             onClick={handleDoneAdding}
-            className="bg-yellow-500 text-white p-3 mt-6 rounded-full hover:bg-yellow-600 flex items-center justify-center"
+            className="bg-yellow-500 text-white p-3 mt-6 rounded-full hover:bg-yellow-600 dark:hover:bg-[#ccc] flex items-center justify-center"
           >
             <ArrowRightIcon className="h-5 w-5" />
           </button>
@@ -197,13 +196,13 @@ export default function PlannerPage() {
         <div className="flex gap-4 mt-6">
           <button
             onClick={() => handleYesNo(true)}
-            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 dark:hover:bg-[#ccc]"
           >
             Yes
           </button>
           <button
             onClick={() => handleYesNo(false)}
-            className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+            className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 dark:hover:bg-[#ccc]"
           >
             No
           </button>
@@ -220,7 +219,7 @@ export default function PlannerPage() {
         </h1>
         <button
           onClick={goToDashboard}
-          className="bg-purple-500 text-white px-4 py-2 mt-6 rounded hover:bg-purple-600"
+          className="bg-purple-500 text-white px-4 py-2 mt-6 rounded hover:bg-purple-600 dark:hover:bg-[#ccc]"
         >
           Go to Dashboard
         </button>

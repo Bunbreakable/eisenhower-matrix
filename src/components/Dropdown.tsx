@@ -41,16 +41,16 @@ export default function Dropdown({
   };
 
   return (
-    <div ref={dropdownRef} className="relative group">
+    <div ref={dropdownRef} className="relative flex justify-center items-center group">
       <button
         onClick={onToggle}
         className="text-gray-700 hover:text-gray-900 dark:text-gray-800 dark:hover:text-black"
         aria-label={ariaLabel}
       >
-        <ArrowsRightLeftIcon className="w-4 h-4" />
+        <ArrowsRightLeftIcon className="w-5 h-5" />
       </button>
 
-      <div className="absolute bottom-full mb-1 hidden group-hover:block w-max bg-gray-800 text-white text-xs rounded py-1 px-2 z-20">
+      <div className="absolute bottom-full mb-2 hidden group-hover:block w-max bg-neutral-50 text-gray-700 text-xs rounded-sm py-1 px-2 z-20 shadow-lg">
         {ariaLabel}
       </div>
 
