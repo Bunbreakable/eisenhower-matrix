@@ -11,6 +11,7 @@ type Task = {
   id: number;
   title: string;
   category: string;
+  order: number;
   completed: boolean;
 };
 
@@ -142,18 +143,16 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
           </button>
         ))}
       </div>
-      <div className="bg-gray-200 p-6 rounded shadow-md">
+      <div className="bg-gray-200 p-6 rounded shadow-md dark:bg-gray-300">
         <h2 className="text-2xl text-gray-800 font-bold text-center mb-4">
           {activeTab}
         </h2>
         {filteredTasks.length > 0 ? (
-          <ul className="space-y-4">
-            {" "}
-            {/* Add space between cards */}
-            {filteredTasks.map((task) => (
+              <ul className="space-y-4">
+                {filteredTasks.map((task) => (
               <li
                 className="bg-white p-4 rounded-lg shadow flex justify-between items-center dark:bg-gray-800"
-                key={task.id}
+                    key={task.id}
               >
                 {/* Task Title */}
                 <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
@@ -190,12 +189,12 @@ export default function Dashboard({ tasks: initialTasks }: { tasks: Task[] }) {
                       onToggle={() => handleToggleDropdown(task.id)}
                       onSelect={(category) => moveTask(task.id, category)}
                       ariaLabel={`Move task`}
-                    />
+                  />
                   )}
                 </div>
               </li>
-            ))}
-          </ul>
+                ))}
+              </ul>
         ) : activeTab === "Do" ? (
           <div className="text-gray-500 text-center">
             <p className="mb-4">Yay! You did all your tasks here! 🎉</p>

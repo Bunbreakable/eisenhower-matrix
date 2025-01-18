@@ -12,6 +12,7 @@ type Task = {
   id: number;
   title: string;
   category?: string;
+  order: number;
 };
 
 export default function PlannerPage() {

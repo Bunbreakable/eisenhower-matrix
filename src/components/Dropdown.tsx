@@ -44,7 +44,7 @@ export default function Dropdown({
     <div ref={dropdownRef} className="relative flex justify-center items-center group">
       <button
         onClick={onToggle}
-        className="text-gray-700 hover:text-gray-900 dark:text-gray-800 dark:hover:text-black"
+        className="text-gray-700 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-300"
         aria-label={ariaLabel}
       >
         <ArrowsRightLeftIcon className="w-5 h-5" />
